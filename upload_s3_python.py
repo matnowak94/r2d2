@@ -71,13 +71,14 @@ s3_bucket_name = "new-bucket-e05ab0e0"
 s3_conn = boto3.client("s3")
 
 try:
-    s3.meta.client.head_bucket(Bucket=s3_bucket_name)
+    instance_id = requests.get(meta_data + '/instance-id').text.strip()
+    s3_conn.head_bucket(Bucket=s3_bucket_name)
 
-    with (ec2InsDatafile, "r") as fh:
+    with open(ec2InsDatafile, 'r') as fh:
         s3_conn.put_object(
             Bucket=s3_bucket_name,
-            Key="system_info" + requests.get(meta_data + "/" + instance_id) + ".txt",
-            Body=fh.read(),
+            Key="system_info" + instance_id + ".txt",
+            Body=fh.read()
         )
     print(
         "File has been uploaded into "
