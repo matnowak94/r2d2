@@ -23,26 +23,28 @@ ec2_params = {
 }
 
 try:
-    fh = open(ec2InsDatafile, 'w')
+    with open(ec2InsDatafile, 'w') as fh:
+        for param, value in ec2_params.items():
+            try:
+                response = requests.get(meta_data +'/' + value)
+            except Exception as e:
+                print(f"Error while making request: {e}")
+
+        if isinstance(response.text, list):
+            print(response.text + ': is a list')
+            data = ' '.join(response.text)
+        else:
+            data = param + ":" + response.text
+    
+        try:
+            fh.write(data+'\r\n')
+        except Exception as e:
+            print(f"Error during writing to file: {e}")
+            print(data)
+
 except:
-    print 'Error while opening file for write'
-
-for param, value in ec2_params.items():
-    try:
-        responce = requests.get(meta_data +'/' + value)
-    except:
-        print "Error while making request"
-    if isinstance(responce.text,list):
-        print responce.text +': is list'
-        data = ' '.joint(responce.text)
-    else:
-        data = param +":"+responce.text
-    try:
-          fh.write(data+'\r\n')
-    except:
-        print('Error during writing to file')
-        print data
-
+    print('Error while opening file for write')
+ 
 #Getting  OS related if from system files
 
 os_vers = "grep '^VERSION=' /etc/os-release |cut -d'=' -f2"
