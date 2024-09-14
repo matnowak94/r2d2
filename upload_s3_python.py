@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-"
 
-import boto_3
+import boto3
 from botocore.client import ClientError
 import requests
 import subprocess
@@ -13,13 +13,13 @@ user_data = 'http://169.254.169.254/latest/user-data'
 meta_data = 'http://169.254.169.254/latest/meta-data'
 ec2InsDatafile = 'ec2InsDatafile'
 ec2_params = {
-    'Instance ID': 'instance-id',
-    'Reservation ID': 'reservation-id'
-    'Public IP': 'public_ipv4',
-    'Public Hostname': 'public_hostname',
-    'Private IP':'local-ipv4'
-    'Security Groups':'security-groups',
-    'AMI ID': 'ami_id'
+    'instance_id': 'instance-id',
+    'reservation_id': 'reservation-id',
+    'public_ip': 'public-ipv4',
+    'public_hostname': 'public-hostname',
+    'private_ip':'local-ipv4',
+    'security_groups':'security-groups',
+    'ami_id': 'ami-id'
 }
 
 try:
